@@ -53,5 +53,10 @@ select  employee_id, first_name, last_name, salary, commission_pct,
 from employees;
 
 __연습문제 3-2-4
+방법1)
 select 365*to_number(to_char(to_date('2020-10-30','YYYY-MM-DD'),'YYYY')-1)+to_number(to_char(to_date('2020-10-30','YYYY-MM-DD'),'DDD'))
+from dual;
+
+방법2)
+select to_date('2020-10-31', 'YYYY-MM-DD') - to_date('0001-01-01', 'YYYY-MM-DD')
 from dual;
