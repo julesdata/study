@@ -1,3 +1,5 @@
+<IF문 연습>
+
 # 문제 1-1
 # a의 평균이 15이상이면 "평균이상" 아니면 "평균미만"으로 출력하시오
 
@@ -51,4 +53,40 @@ iris$new <- ifelse(iris$Sepal.Length >6, 1,
 sum(iris[iris$new==1,"Sepal.Width"])   #질문! "Sepal.Width"를 iris$Sepal.Width로 표현하면 루프에빠지는데 왜그런것?
 #or
 sum(subset(iris,new==1,"Sepal.Width"))
+
+<Roop문 연습>
+#expend.grid 연습
+
+#문제 2-1
+wheel <- c("DD", "7", "BBB", "BB", "B", "C", "0")
+prob <- c("DD" = 0.03, "7" = 0.03, "BBB" = 0.06, 
+          "BB" = 0.1, "B" = 0.25, "C" = 0.01, "0" = 0.52)
+# wheel 과 같이 총 7개의 경우의 수가 있다.
+# 각 확률은 prob와 같고 총 3번의 시도를 했을 경우에 0.001보다 높은 경우의 수 개수는?
+# (3번 추출하며 각각 독립이다)
+# (DD, BBB, 7) 과 (DD , 7 , BBB)는 다른 경우의 수다
+
+wheels <- expand.grid(wheel,wheel,wheel)
+wheels$prob1 <- prob[wheels$Var1]
+wheels$prob2 <- prob[wheels$Var2]
+wheels$prob3 <- prob[wheels$Var3]
+wheels$prob <- wheels$prob1*wheels$prob2*wheels$prob3
+
+nrow(wheels[wheels$prob>0.001,]
+
+#문제 2-2
+# 동전을 3번 던질 떄 확률은 0.3과 0.7이다
+# 첫번째에 앞이나오고 그리고(&) 세번째에 뒤가 나올 확률을 구하시오
+
+coin <- c("앞","뒤")
+prob <- c("앞" = 0.3, "뒤" = 0.7)
+
+coins <- expand.grid(coin, coin, coin)
+coins$prob1 <- prob[coins$Var1]
+coins$prob2 <- prob[coins$Var2]
+coins$prob3 <- prob[coins$Var3]
+
+coins$prob <-coins$prob1 * coins$prob2 * coins$prob3
+
+sum(subset(coins,Var1=="앞"& Var3=="뒤","prob"))
 
