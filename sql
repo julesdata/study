@@ -1,6 +1,15 @@
 __연습문제 3-1-2
-select substr('Is this the real life? Is this just fantasy?',-8,7)
+
+방법 1)
+
+select substr('Is this the real life? Is this just fantasy?',-8)
 from dual;
+
+방법 2)
+select substr('Is this the real life? Is this just fantasy?',
+                instr('Is this the real life? Is this just fantasy?','fant'))
+from dual;
+
 
 __연습문제 3-1-3
 select sysdate,
