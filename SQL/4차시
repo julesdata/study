@@ -1,0 +1,10 @@
+<집계연산>
+#문제 4-1 
+locations 테이블에는 전 세계에 있는 지역 사무소 주소 정보가 나와 있습니다. 각
+국가별로 지역사무소가 몇 개나 되는지 찾는 쿼리를 작성해 보세요. 
+
+select country_id, 
+    count(*)
+from locations
+group by country_id
+order by 1;
