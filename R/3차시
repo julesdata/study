@@ -90,3 +90,62 @@ coins$prob <-coins$prob1 * coins$prob2 * coins$prob3
 
 sum(subset(coins,Var1=="앞"& Var3=="뒤","prob"))
 
+#for문 연습
+#문제 3-1
+sum <- 0
+# for문을 사용해서 1부터 100까지의 누적합을 구하시오
+
+for (i in 1:100){
+  sum <- sum+i
+  }
+sum
+
+#문제 3-2
+sum2 <- 0
+sample(1:6,1)
+# for문을 사용해서 위의 주사위 20번 던진 누적 합을 구하시오
+
+for (i in 1:20){
+   sum2 <- sum2 + sample(1:6,1)
+}
+sum2
+
+#for, while문
+#문제 4. 구구단 만들어보기
+# 2단부터 9단까지 출력해보기
+
+#ex)
+# 2 4 6 8 10 12 14 16 18
+# 3 6 9 12 ....
+# .....
+# 9 18 27 36 ....
+
+
+#문제 4_1 for문
+#seq(값 , by = 차이, length.out = 길이)
+
+for(i in 2:9){
+  print(seq(i,by=i,length.out=9))
+}
+
+#문제 4_2 while문
+#while문
+i<-2
+  
+while(i<=9){
+  print(seq(i,by=i,length.out=9))
+  i=i+1
+}
+
+<my function 문제>
+#문제 5
+# 성적을 입력했을경우 40점 이하는 "C", 70점 이하는 "B" 
+# 71점 이상은 "A"를 출력하는 function을 만드시오
+
+grade <-function(x){
+  ifelse(x<=40,"C",
+         ifelse(x<=70,"B","A"))
+}
+
+grade(100)
+
