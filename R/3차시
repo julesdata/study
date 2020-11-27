@@ -72,7 +72,7 @@ wheels$prob2 <- prob[wheels$Var2]
 wheels$prob3 <- prob[wheels$Var3]
 wheels$prob <- wheels$prob1*wheels$prob2*wheels$prob3
 
-nrow(wheels[wheels$prob>0.001,]
+nrow(wheels[wheels$prob>0.001,])
 
 #문제 2-2
 # 동전을 3번 던질 떄 확률은 0.3과 0.7이다
@@ -149,3 +149,28 @@ grade <-function(x){
 
 grade(100)
 
+<apply 문제>
+#문제 6
+# iris에서 각 행바다(1~4열)의 분산 열을 추가하시오 (var)
+data(iris)
+iris$var <- apply(iris[1:4],1,var)
+
+#문제 7
+# function을 활용해서 iris[,1:4]의 모든 값들은 제곱하시오
+
+apply(iris[,1:4],2,function(x){x^2}) #or
+sapply(iris[,1:4], function(x){x^2})
+
+#문제 8
+# iris에서 for문을 활용해서 숫자형(iris[,1:4]) 값을 Species별 평균을 구하시오
+# z변수에 저장
+
+tapply(iris[,1:4],iris$Species,mean) #x가 벡터가 아닌 행렬이어서 불가능
+
+z<-c()          #z 변수 저장에 z를 덮어 씌우므로 최초z에대한 사전 정의 필요. 누락시 오류      
+
+for(i in 1:4){
+    a <- tapply(iris[,i],iris$Species,mean)       #tapply는 배열로 출력됨
+    z <- rbind(z,data.frame(t(a)))                #data.frame통해 행렬생성(열로출력)->t(x)통한 행/렬 치환 후 r bind
+}
+z
