@@ -10,6 +10,28 @@ WHERE a.job_id = b.job_id
 AND a.salary NOT BETWEEN b.min_salary AND b.max_salary
 ORDER BY 1;
 
+강현 답:
+SELECT A.JOB_ID, B. SALARY, A.MIN_SALARY, A.MAX_SALARY ,B.LAST_NAME ||' '||B.FIRST_NAME EMP_NAME
+FROM JOBS A, EMPLOYEES B
+WHERE A.JOB_ID = B.JOB_ID AND
+(B.SALARY < A.MIN_SALARY OR
+B.SALARY > A.MAX_SALARY)
+
+주한 답:
+select a.job_id
+      ,a.min_salary
+      ,a.max_salary
+      ,b.salary
+      ,b.employee_id
+      ,b.first_name||' '||b.last_name
+from jobs a
+inner join employees b
+     on a.job_id = b.job_id
+where 1=1
+and b.salary>a.max_salary
+or  b.salary<a.min_salary
+order by 1;
+
 2. 아래 외부조인 문장을 실행하면 내부조인을 한 것과 결과가 같습니다. 왜 이런 결과가
 나왔는지 설명해 보세요.
 SELECT a.employee_id, a.first_name || ' ' || a.last_name emp_names, b.*
@@ -22,6 +44,8 @@ a쪽 테이블 조인조건에 (+)가 붙어 있으므로 b, 즉 job_history 테
 않는 데이터가 조회되어야 합니다.
 그런데 job_history 테이블에 있는 employee_id 값은 모두 employees 테이블에 존재하므로 내부조인을 한
 것과 같은 결과가 조회되는 것입니다.
+
+--집합연산자 'select ~ from ~ minus select~ from ~'로 확인해볼 수 있다. 
 
 3. 실습시간 마지막에 배웠던 셀프조인의 경우 사번이 100번인 Steven King은 조회되지
 않습니다. 그 이유는 뭘까요?
@@ -91,48 +115,47 @@ ORDER BY 1;
 8. ORDERS, ORDER_ITEMS, PROUCTS, BRANDS 테이블을 조인해 2018년 분기별, 브랜드별 주문금액
 합계를 조회하는데, 주문금액이 10000 이상인 데이터를 조회하는 쿼리를 ANSI 조인으로 작성해 보세요.
 (주문금액 = order_items 의 quantity * list_price)
-SELECT TO_CHAR(a.order_date, 'YYYY-Q') quarter
-,d.brand_name
-,SUM(b.quantity * b.list_price) order_amt
-FROM ORDERS A
-INNER JOIN ORDER_ITEMS B
-ON A.ORDER_ID = B.ORDER_ID
-INNER JOIN PRODUCTS C
-ON B.PRODUCT_ID = C.PRODUCT_ID
-INNER JOIN BRANDS D
-ON C.BRAND_ID = D.BRAND_ID
-WHERE a.order_date BETWEEN TO_DATE('2018-01-01','YYYY-MM-DD')
-AND TO_DATE('2018-12-31','YYYY-MM-DD')
-GROUP BY TO_CHAR(a.order_date, 'YYYY-Q'), D.BRAND_NAME
-HAVING SUM(b.quantity * b.list_price) >= 10000
-ORDER BY 1, 3 DESC;
 
-9. 년도별 매장별 주문금액 합계를 조회하는 쿼리를 ANSI 조인으로 작성해 보세요. (주문금액 =
-order_items 의 quantity * list_price)
-SELECT TO_CHAR(a.order_date, 'YYYY') years
-,e.store_name
-,SUM(b.quantity * b.list_price) order_amt
-FROM ORDERS A
-INNER JOIN ORDER_ITEMS B
-ON A.ORDER_ID = B.ORDER_ID
-INNER JOIN STORES E
-ON A.STORE_ID = E.STORE_ID
-WHERE a.order_date BETWEEN TO_DATE('2016-01-01','YYYYMM-DD')
-AND TO_DATE('2019-12-31','YYYY-MM-DD')
-GROUP BY TO_CHAR(a.order_date, 'YYYY'), e.store_name
-ORDER BY 1;
+select to_char(a.order_date,'YYYY-Q') quater,
+        d.band_name,
+        sum(b.quantity * b.list_price) oredr_amt
+from orders a
+inner join order_items b
+    on a.order_id = b.order_id
+inner join products c
+    on b.product_id = c.product_id
+inner join brands d
+    on c.brand_id = d.brand_id
+where a.order_date between to_date('20180101','YYYYMMDD')
+            and to_date('20181231','YYYYMMDD')
+group by to_char(a.order_date,'YYYY-Q'),d.brand_name
+having sum(b.quantity * b.list_price)>=10000
+order by 1, 3 desc;
+
+9. 년도별 매장별 주문금액 합계를 조회하는 쿼리를 ANSI 조인으로 작성해 보세요. 
+(주문금액 =order_items 의 quantity * list_price)
+
+select to_char(a.order_date,'YYYY') YEAR,
+    c.store_name,
+    sum(b.quantity * b.list_price) order_amt
+from orders a
+inner join order_items b
+    on a.order_id = b.order_id
+inner join stores c
+    on a.store_id = c.store_id
+group by to_char(a.order_date,'YYYY'), c.store_name
+order by 1;
+
 
 10. 분석함수를 사용해 다음과 같이 누적합계를 구하는 쿼리를 작성해 보세요.
 (힌트: SUM 함수 사용)
 정답 :
-SELECT b.department_id, b.department_name,
-a.first_name || ' ' || a.last_name as emp_name,
-a.hire_date,
-a.salary ,
-sum(salary) OVER (PARTITION BY b.department_id
-ORDER BY a.hire_date, a.salary ) 누적합계
-FROM employees a,
-departments b
-WHERE a.department_id = b.department_id
-ORDER BY 2, 4, 5 ;
 
+select b.department_id, b.department_name, a.first_name || ' ' || a.last_name emp_name,
+    a.hire_date, a.salary,
+    sum(a.salary) over(
+        partition by b.department_id
+        order by a.hire_date) 누적합계  --order by에 입사일자 외에 a.salary를 추가해야함!! 입사일 같을 경우 전체 합계가 출력됨.
+from employees a, departments b
+where b.department_id = a.department_id
+order by 2,4; --마찬가지로 샐러리 추가. 안하면 기존 셋팅 순서대로 표기됨
