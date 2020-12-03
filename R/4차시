@@ -173,3 +173,13 @@ A1<- iris %>%
   filter(seq_num==3)
   
 sum(A1$Sepal.Width)
+
+#한번에 전체 합계 구하는 방법은?
+
+iris %>%
+  group_by(Species) %>%
+  arrange(Species,desc(Sepal.Width))%>%
+  mutate(seq_num=row_number()) %>%
+  filter(seq_num==3) %>%
+  ungroup() %>%                                  #ungroup을 해주면 필터된 상태에서 그룹만 풀려서 전체 합계 구하기 가능!
+  summarise(sum = sum(Sepal.Width))
