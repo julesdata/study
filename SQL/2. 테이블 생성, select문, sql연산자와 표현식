@@ -9,7 +9,7 @@ alter table country_test
 add constraint country_test_pk primary key(country_id);
 
 --oracle에서 comment생성 방법
-comment on column [테이블명].[컬럼명] is '설명
+comment on column [테이블명].[컬럼명] is '설명'
 comment on column country_test.country_id is '국가번호'
 comment on column country_test.country_name is '국가명';
 
