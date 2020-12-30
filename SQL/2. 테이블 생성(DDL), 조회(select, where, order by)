@@ -1,0 +1,61 @@
+#2-1-4 country_test 테이블생성
+>
+create table country_test(
+COUNTRY_ID number not null comment '국가번호',
+COUNTRY_NAME varchar2(100) not null comment '국가명'
+);
+
+alter table country_test
+add constraint country_test_pk primary key(country_id);
+
+--oracle에서 comment생성 방법
+comment on column [테이블명].[컬럼명] is '설명
+comment on column country_test.country_id is '국가번호'
+comment on column country_test.country_name is '국가명';
+
+#2-1-5. country_test 테이블에 REGION_ID 란 컬럼을 추가하는 문장을 작성하세요.
+(REGION_ID : 숫자형, NULL 허용 컬럼)
+>
+alter table country_test
+add REGION_ID number; 
+
+#2-1-6.  country_test 테이블의 REGION_ID 는 NULL 허용 컬럼입니다. 이를 NOT NULL
+컬럼으로 변경하는 문장을 작성하세요. 
+>
+alter table country_test
+modify REFION_ID not null;
+
+#2-1-7. country_test 테이블을 삭제하는(제거하는) 문장을 작성해 보세요. 
+>
+drop table country_test;
+
+##자꾸 틀리는 Point!##
+add 와 modify뒤에 'column'이라고 지정할 필요 없이 바로 column명을 써주면 된다!
+
+
+#2-2-4.Locations 테이블은 부서의 주소 관련 데이터가 담겨있습니다. 
+     이 테이블의 컬럼과 데이터 형 (타입), 각 컬럼의 NULL허용 여부를 찾아 정리해 보세요.
+>
+desc locations;
+
+>
+이름             널?       유형           
+-------------- -------- ------------ 
+LOCATION_ID    NOT NULL NUMBER(4)    
+STREET_ADDRESS          VARCHAR2(40) 
+POSTAL_CODE             VARCHAR2(12) 
+CITY           NOT NULL VARCHAR2(30) 
+STATE_PROVINCE          VARCHAR2(25) 
+COUNTRY_ID              CHAR(2)      
+
+#2-2-5. LOCATIONS 테이블에서 LOCATION_ID 값이 2000보다 크거나 같고 3000 보다 작은
+건을 조회하는 문장을 작성해 보세요.
+>
+select *
+from locations
+where location_id >= 2000
+  and location_id < 3000;
+  
+--where location_id between 2000 and 3000; 을 사용하게되면 3000을 포함한다. (이상~이하)
+
+
