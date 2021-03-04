@@ -22,61 +22,60 @@ BEGIN
   -- 용량표시로 추정되는 문자열 추출 (용량 단위나 본입 기호(*,x,+) 없이 숫자만 있는 경우 제외 (ex 콜라 500, 세트 2호 ) 
   get_qty_word_loop: 
   while REGEXP_INSTR(vg_goods_nm, rg_num) > 0 Do
-	   #숫자+단위~ 인 패턴 (ex: 100ml, 100ml 3입, 100ml*3,100ml*3+50ml, 100g 2+1입 등 ) 
-	   get_pattern_loop1:
-	   while REGEXP_INSTR(vg_goods_nm, concat(rg_num,rg_code1)) > 0 Do
-			#패턴 앞에 다른 패턴(숫자+기호)이 없는지 화인 
-			SET @PSN = 0; SET @PSN = REGEXP_INSTR(vg_goods_nm, concat(rg_num,rg_code1)); 
-	  	 	IF regexp_instr(LEFT(vg_goods_nm, @PSN-1),CONCAT(rg_num,rg_code2))>0 THEN 
-				Leave get_pattern_loop1;   
+  	#숫자+단위~ 인 패턴 (ex: 100ml, 100ml 3입, 100ml*3,100ml*3+50ml, 100g 2+1입 등 ) 
+	get_pattern_loop1:
+	while REGEXP_INSTR(vg_goods_nm, concat(rg_num,rg_code1)) > 0 DO
+		#패턴 앞에 다른 패턴(숫자+기호)이 없는지 화인 
+		SET @PSN = 0; SET @PSN = REGEXP_INSTR(vg_goods_nm, concat(rg_num,rg_code1)); 
+	  	IF regexp_instr(LEFT(vg_goods_nm, @PSN-1),CONCAT(rg_num,rg_code2))>0 THEN 
+			Leave get_pattern_loop1;   
 			END IF; 
 			
-			# 패턴 추출 
-			SET @STR = REGEXP_SUBSTR(vg_goods_nm, concat(rg_num,rg_code1,rg_pattern));
-		 	SET VZ_RETURN = CONCAT(VZ_RETURN,' ', @STR); -- 추출한 패턴을 계속 이어붙혀라
+		# 패턴 추출 
+		SET @STR = REGEXP_SUBSTR(vg_goods_nm, concat(rg_num,rg_code1,rg_pattern));
+		SET VZ_RETURN = CONCAT(VZ_RETURN,' ', @STR); -- 추출한 패턴을 계속 이어붙혀라
 		 	
-		 	SET vz_num='0';
-			IF vz_num > 5 THEN
-	      	LEAVE get_pattern_loop1;
+		SET vz_num='0';
+		IF vz_num > 5 THEN
+	      		LEAVE get_pattern_loop1;
 	    	END IF;
 	    	SET vz_num = vz_num + 1;
 	    	
 	    	#제품명을 추출한 패턴 이후의 문자열로 대체 
-			SET VG_GOODS_NM = SUBSTR(VG_GOODS_NM, @PSN+CHAR_LENGTH(@STR));
+		SET VG_GOODS_NM = SUBSTR(VG_GOODS_NM, @PSN+CHAR_LENGTH(@STR));
 		
 		END WHILE get_pattern_loop1;
 		
 		
 		#숫자+기호+숫자~ 인 패턴 (ex: 2+1, 100+100ml, 100*3입,100*3+50ml 등 ) 
-	   get_pattern_loop2:
-	   while REGEXP_INSTR(vg_goods_nm, concat(rg_num,rg_code2,rg_num)) > 0 Do 
-	   	#패턴 앞에 다른 패턴(숫자+단위)이 없는지 화인
-			SET @PSN = 0; SET @PSN = REGEXP_INSTR(vg_goods_nm, concat(rg_num,rg_code2,rg_num)); 
-	  	 	IF regexp_instr(LEFT(vg_goods_nm, @PSN-1),CONCAT(rg_num,rg_code1))>0 THEN 
-				Leave get_pattern_loop2;   
+	get_pattern_loop2:
+	while REGEXP_INSTR(vg_goods_nm, concat(rg_num,rg_code2,rg_num)) > 0 Do 
+		#패턴 앞에 다른 패턴(숫자+단위)이 없는지 화인
+		SET @PSN = 0; SET @PSN = REGEXP_INSTR(vg_goods_nm, concat(rg_num,rg_code2,rg_num)); 
+	  	IF regexp_instr(LEFT(vg_goods_nm, @PSN-1),CONCAT(rg_num,rg_code1))>0 THEN 
+			Leave get_pattern_loop2;   
 			END IF;
 			 
-			SET @STR = REGEXP_SUBSTR(vg_goods_nm, concat(rg_num,rg_code2,rg_num,rg_pattern));
-		 	SET VZ_RETURN = CONCAT(VZ_RETURN,' ', @STR); -- 추출한 숫자들을 계속 이어붙혀라
+		SET @STR = REGEXP_SUBSTR(vg_goods_nm, concat(rg_num,rg_code2,rg_num,rg_pattern));
+		SET VZ_RETURN = CONCAT(VZ_RETURN,' ', @STR); -- 추출한 숫자들을 계속 이어붙혀라
 		 	
-		 	SET vz_num='0';
-		 	IF vz_num > 5 THEN
-	      	LEAVE get_pattern_loop2;
+		SET vz_num='0';
+		IF vz_num > 5 THEN
+	      		LEAVE get_pattern_loop2;
 	    	END IF;
 	    	SET vz_num = vz_num + 1;
 	    	
 	    	SET VG_GOODS_NM = SUBSTR(VG_GOODS_NM, @PSN+CHAR_LENGTH(@STR));
 		
-		END WHILE get_pattern_loop2;
+	END WHILE get_pattern_loop2;
+								      
+  	IF @pt_num > 5 THEN
+  		LEAVE get_qty_word_loop;
+  	END IF;
+  	SET @pt_num = @pt_num + 1;
 		
-
-		IF @pt_num > 5 THEN
-	      LEAVE get_qty_word_loop;
-		END IF;
-		SET @pt_num = @pt_num + 1;
-		
-	END WHILE get_qty_word_loop;		
+  END WHILE get_qty_word_loop;		
 	
-	RETURN vz_return;
+  RETURN vz_return;
   
 END
