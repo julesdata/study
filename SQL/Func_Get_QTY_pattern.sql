@@ -22,7 +22,7 @@ BEGIN
   -- 용량표시로 추정되는 문자열 추출 (용량 단위나 본입 기호(*,x,+) 없이 숫자만 있는 경우 제외 (ex 콜라 500, 세트 2호 ) 
   get_qty_word_loop: 
   while REGEXP_INSTR(vg_goods_nm, rg_num) > 0 Do
-  	#숫자+단위~ 인 패턴 (ex: 100ml, 100ml 3입, 100ml*3,100ml*3+50ml, 100g 2+1입 등 ) 
+  	# 패턴 1: 숫자+단위~ 인 패턴 (ex: 100ml, 100ml 3입, 100ml*3,100ml*3+50ml, 100g 2+1입 등 ) 
 	get_pattern_loop1:
 	while REGEXP_INSTR(vg_goods_nm, concat(rg_num,rg_code1)) > 0 DO
 		#패턴 앞에 다른 패턴(숫자+기호)이 없는지 화인 
@@ -47,7 +47,7 @@ BEGIN
 		END WHILE get_pattern_loop1;
 		
 		
-		#숫자+기호+숫자~ 인 패턴 (ex: 2+1, 100+100ml, 100*3입,100*3+50ml 등 ) 
+	# 패턴 2: 숫자+기호+숫자~ 인 패턴 (ex: 2+1, 100+100ml, 100*3입,100*3+50ml 등 ) 
 	get_pattern_loop2:
 	while REGEXP_INSTR(vg_goods_nm, concat(rg_num,rg_code2,rg_num)) > 0 Do 
 		#패턴 앞에 다른 패턴(숫자+단위)이 없는지 화인
