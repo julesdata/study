@@ -1,3 +1,5 @@
+# 바코드에서 추출한 상품명 정보에서 , 용량/본입 단위를 나타내는 표현을 모두 추출하는 사용자 정의 함수 생성 
+
 BEGIN
 
   DECLARE vg_goods_nm VARCHAR(500) DEFAULT I_GOODS_NM;
