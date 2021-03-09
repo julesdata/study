@@ -1,3 +1,5 @@
+# 사용자정의함수 통해 추출한 값을 저장할 테이블 Insert 문. Cursor을 사용하여 분할 실행 
+
 DROP PROCEDURE if EXISTS temp_barcode_qtyKeyword_insrert;
 DELIMITER $$
 CREATE PROCEDURE temp_barcode_qtyKeyword_insrert()
