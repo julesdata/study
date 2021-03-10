@@ -66,7 +66,7 @@ SELECT
 ;
 ```
 **Points!**: 특정 값을 조회 했을 때, 조건에 맞는 값이 없을 경우 아무 값도 조회되지 않지만,  
-select NUll 할 경우, NULL이 조회된다.   
+`SELECT NUll` 할 경우, `NULL`이 조회된다.   
    
    
 ### 2. Top 1%'s Answer (using *max* clause and sub-query in where statement)
@@ -81,9 +81,9 @@ WHERE Salary < (SELECT MAX(Salary) FROM Employee)
 
 ### 1. LIMIT 
 
-\- *limit n* 이란 형태로 n번째 값 까지만 조회 하는 기능으로 알았는데  
-\- *limit m , n* 으로 쓰면 m번째 값 이후로 n개의 값을 조회 할 수 있다.   
-    ex) limit 10, 4 : 11번째부터 4개, 즉 11-14 번째 값을 조회한다.
+\- `limit n` 이란 형태로 n번째 값 까지만 조회 하는 기능으로 알았는데  
+\- `limit m , n` 으로 쓰면 m번째 값 이후로 n개의 값을 조회 할 수 있다.   
+    ex) `limit 10, 4` : 11번째부터 4개, 즉 11-14 번째 값을 조회한다.
 ```sql
 SELECT 
     select_list
@@ -102,8 +102,8 @@ The following picture illustrates the LIMIT clause:
   
 ### 2. IFNULL  
 
-- Oracle의 *NVL*과 같다. 
-- IFNULL(A , B ) : A가 NULL일 경우 B를 반환한다. NULL이 아닐경우 그대로 A를 반환 
+- Oracle의 `NVL`과 같다. 
+- `IFNULL(A , B )` : A가 NULL일 경우 B를 반환한다. NULL이 아닐경우 그대로 A를 반환 
 
 
 참고: https://www.mysqltutorial.org/mysql-ifnull/
