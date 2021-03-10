@@ -14,3 +14,13 @@ from Person as A left join Address as B
 ```
 ![image](https://user-images.githubusercontent.com/74705142/110563873-4867ca00-818f-11eb-901f-85dd0289003b.png)
 
+#### Top 1%'s Code 
+```sql
+select FirstName, LastName, City, State
+from Person left join Address
+on Person.PersonId = Address.PersonId
+;
+```
+
+**What I Learned** : 
+컬럼명이 독립적일 경우, 컬럼명 앞에 테이블 별칭을 붙히지 않아도 된다. 
