@@ -4,6 +4,9 @@
 ![image]
 
 ## \<Solving\>
+**Points!**: 
+1.  풀이 계획
+2.  풀이 계획
 
 ### 1. Wrong Answer 1
 ```sql
@@ -46,7 +49,7 @@ query
 ```sql
 query
 ```
-해설 
+**Points!**: 해설 
 
 ## \<What I Learned\>  
 
