@@ -9,7 +9,7 @@
 2. 사용자 정의 함수를 통해 N을 입력하면 N번째 값이 나오게 한다. 
 3. Limit은 N번째 이후의 값을 가져오므로, offset에는 N-1이 들어가야한다.  
 
-### Answer 1 - Failed
+### 1. Wrong Answer
 ```sql
 CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
 BEGIN
@@ -41,7 +41,7 @@ The values of both arguments must be **`zero`** or **`positive integers.`**
 Null을 조회하면 `Null`이 반환되기 때문이었다. 이번 문제는 사용자함수 안에 select절을 사용하기 때문에,  
 굳이 한번 더 함수 내에 subquery를 쓰지 않아도 된다. (틀린 것은 아니지만, 불필요함)
    
-### Answer 2 - Accepted
+### 2. Final Submission
 ```sql
 CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
 BEGIN
