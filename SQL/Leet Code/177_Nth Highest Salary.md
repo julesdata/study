@@ -42,6 +42,7 @@ Null을 조회하면 `Null`이 반환되기 때문이었다. 이번 문제는 �
 굳이 한번 더 함수 내에 subquery를 쓰지 않아도 된다. (틀린 것은 아니지만, 불필요함)
    
 ### 2. Final Submission
+`SET N = N-1`으로 설정하여, Offset에 정수형태의 N-1값이 들어가게 수정한다.
 ```sql
 CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
 BEGIN
