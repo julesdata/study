@@ -1,4 +1,4 @@
-# 177. Nth Highest Salary (Create Function)
+# 177. [Nth Highest Salary](https://leetcode.com/problems/nth-highest-salary/)(Create Function)
 
 ## \<Problem\>
 ![image](https://user-images.githubusercontent.com/74705142/110888763-34a79980-8330-11eb-9577-c8b7ecfecf67.png)
