@@ -32,7 +32,7 @@ check the manual that corresponds to your MySQL server version for the right syn
 END' at line 8
 ```
 #### 오답노트
-1. 정수형만 받을 수 있기때문에 `N-1`은 Offset 파라미터로 적절하지 않다.
+1. `LIMIT`은 정수형 인자만 받을 수 있기때문에 수식`N-1`은 Offset 값으로 적절하지 않다.
 >The `LIMIT` clause is used in the SELECT statement to constrain the number of rows to return.  
 The `LIMIT` clause accepts one or two arguments.  
 The values of both arguments must be **`zero`** or **`positive integers.`** 
