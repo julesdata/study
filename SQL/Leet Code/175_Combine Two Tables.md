@@ -4,6 +4,9 @@
 ![image](https://user-images.githubusercontent.com/74705142/110563205-4a7d5900-818e-11eb-980e-70ae673411b5.png)
 
 ### \<Solving\>
+**Points!**
+1. PersonId 컬럼이 Foreign키이다. 
+2. address의 유무와 상관없이 가져오라고 했으므로, Person table을 기준으로 Left outer join한다. 
 
 #### My Answer
 
