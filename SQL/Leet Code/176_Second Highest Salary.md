@@ -1,4 +1,4 @@
-# 176. Second Highest Salary
+# [176. Second Highest Salary](https://leetcode.com/problems/second-highest-salary/)
 
 ## \<Problem\>
 ![image](https://user-images.githubusercontent.com/74705142/110578860-fa5fc000-81a8-11eb-974c-6352acfd58bf.png)
