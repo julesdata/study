@@ -4,6 +4,9 @@
 ![image](https://user-images.githubusercontent.com/74705142/110578860-fa5fc000-81a8-11eb-974c-6352acfd58bf.png)
 
 ## \<Solving\>
+**Points!**:
+1. Hightst Salary -> salary를 내림차순
+2. Second Higtst -> `Limit 1,1`을 사용하여 1번째 이후로 1개 값을 가져오자.  
 
 ### 1. Wrong Answer 1
 ```sql
@@ -66,7 +69,7 @@ SELECT
 ;
 ```
 **Points!**: 특정 값을 조회 했을 때, 조건에 맞는 값이 없을 경우 아무 값도 조회되지 않지만,  
-`SELECT NUll` 할 경우, `NULL`이 조회된다.   
+`SELECT NUll` 할 경우, `NULL`이 조회된다. 스칼라 서브쿼리 안에서 조회 값이 없으면, 원문은 Select Null을 한 셈이 된다. 
    
    
 ### 2. Top 1%'s Answer (using *max* clause and sub-query in where statement)
@@ -75,7 +78,7 @@ SELECT MAX(Salary) AS SecondHighestSalary
 FROM Employee
 WHERE Salary < (SELECT MAX(Salary) FROM Employee)
 ```
-가장 큰 값 보다 작은 값 중에서 가장 큰 값을 조회하면 두번째로 큰 값이 나온다.   
+**Points!**: 가장 큰 값 보다 작은 값 중에서 가장 큰 값을 조회하면 두번째로 큰 값이 나온다.   
 
 ## \<What I Learned\>  
 
